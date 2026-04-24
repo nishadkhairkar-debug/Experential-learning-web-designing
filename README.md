@@ -1,2 +1,949 @@
-# Experential-learning-web-designing
-Developed by Nishad Khairkar
+//# Experential-learning-web-designing
+//Developed by Nishad Khairkar
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vidya Alumni Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #112240;
+    --navy-light: #1a3460;
+    --gold: #c9a84c;
+    --gold-light: #e8c96e;
+    --gold-pale: #f5e6be;
+    --cream: #faf7f0;
+    --white: #ffffff;
+    --text-muted: #8899aa;
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-border: rgba(201,168,76,0.2);
+    --shadow-gold: 0 8px 40px rgba(201,168,76,0.15);
+    --shadow-deep: 0 20px 60px rgba(10,22,40,0.4);
+    --radius: 14px;
+    --radius-sm: 8px;
+    --transition: all 0.32s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 70px;
+    background: rgba(10,22,40,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    transition: var(--transition);
+  }
+  nav.scrolled {
+    height: 60px;
+    background: rgba(10,22,40,0.97);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+  .logo-emblem {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 900;
+    color: var(--navy);
+    box-shadow: 0 4px 15px rgba(201,168,76,0.35);
+  }
+  .logo-text { display: flex; flex-direction: column; }
+  .logo-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--white); line-height: 1;
+  }
+  .logo-sub { font-size: 10px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+
+  .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+  .nav-links a {
+    display: block; padding: 6px 16px;
+    font-size: 13.5px; font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    border-radius: 40px;
+    letter-spacing: 0.3px;
+    transition: var(--transition);
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -2px; left: 50%; right: 50%;
+    height: 1.5px; background: var(--gold);
+    transition: var(--transition); border-radius: 1px;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { left: 16px; right: 16px; }
+  .nav-links .btn-nav {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy) !important; font-weight: 600;
+    padding: 7px 20px;
+  }
+  .nav-links .btn-nav:hover { box-shadow: 0 4px 20px rgba(201,168,76,0.45); transform: translateY(-1px); }
+  .nav-links .btn-nav::after { display: none; }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative; height: 100vh; min-height: 640px;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(10,22,40,0.55) 0%, rgba(10,22,40,0.72) 60%, rgba(10,22,40,0.95) 100%),
+      url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80') center/cover no-repeat;
+    transform: scale(1.05);
+    animation: heroZoom 18s ease-in-out infinite alternate;
+  }
+  @keyframes heroZoom { from { transform: scale(1.05); } to { transform: scale(1.12); } }
+
+  .hero-particles {
+    position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  }
+  .particle {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.6), transparent);
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) scale(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 750px; padding: 0 5%; margin-top: 70px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 40px; padding: 6px 16px;
+    font-size: 12px; font-weight: 500;
+    color: var(--gold-light); letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 28px;
+    backdrop-filter: blur(10px);
+    animation: fadeSlideUp 0.8s ease forwards;
+    opacity: 0;
+  }
+  .hero-badge i { font-size: 11px; }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 900; line-height: 1.1;
+    margin-bottom: 24px;
+    animation: fadeSlideUp 0.8s 0.15s ease forwards;
+    opacity: 0;
+  }
+  .hero-title .accent { color: var(--gold); }
+  .hero-title .line2 { display: block; color: rgba(255,255,255,0.88); }
+  .hero-subtitle {
+    font-size: 17px; font-weight: 300;
+    color: rgba(255,255,255,0.65); line-height: 1.7;
+    max-width: 520px; margin-bottom: 40px;
+    animation: fadeSlideUp 0.8s 0.3s ease forwards;
+    opacity: 0;
+  }
+  .hero-cta {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeSlideUp 0.8s 0.45s ease forwards;
+    opacity: 0;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 30px; border-radius: 50px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy); font-weight: 700; font-size: 15px;
+    text-decoration: none; border: none; cursor: pointer;
+    box-shadow: 0 8px 30px rgba(201,168,76,0.35);
+    transition: var(--transition);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(201,168,76,0.5); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 30px; border-radius: 50px;
+    background: transparent;
+    color: var(--white); font-weight: 500; font-size: 15px;
+    text-decoration: none; cursor: pointer;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    transition: var(--transition);
+  }
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.6);
+    transform: translateY(-3px);
+  }
+
+  .hero-scroll-hint {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: rgba(255,255,255,0.4); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    animation: bounceDown 2s ease infinite;
+    z-index: 2;
+  }
+  .hero-scroll-hint i { font-size: 18px; }
+  @keyframes bounceDown {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  .hero-stats {
+    position: absolute; bottom: 100px; right: 5%;
+    display: flex; gap: 20px; flex-wrap: wrap; justify-content: flex-end;
+    z-index: 2;
+    animation: fadeSlideUp 0.8s 0.6s ease forwards;
+    opacity: 0;
+  }
+  .stat-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    padding: 18px 24px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-weight: 700; color: var(--gold);
+  }
+  .stat-lbl { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 100px 5%; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--gold); font-size: 12px; font-weight: 600;
+    letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .section-label::before { content: ''; width: 28px; height: 1.5px; background: var(--gold); }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700;
+    line-height: 1.2; margin-bottom: 16px;
+  }
+  .section-desc {
+    font-size: 16px; color: rgba(255,255,255,0.55);
+    max-width: 520px; line-height: 1.75;
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── REGISTRATION ── */
+  #register { background: var(--navy-mid); }
+  .register-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: center; max-width: 1100px; margin: 0 auto;
+  }
+  .reg-info .section-title { color: var(--white); }
+  .reg-features { margin-top: 32px; display: flex; flex-direction: column; gap: 18px; }
+  .reg-feat {
+    display: flex; align-items: flex-start; gap: 14px;
+  }
+  .reg-feat-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 16px;
+  }
+  .reg-feat-text h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .reg-feat-text p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+  .reg-form-wrap {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px; padding: 40px;
+    box-shadow: var(--shadow-deep);
+    position: relative; overflow: hidden;
+  }
+  .reg-form-wrap::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+  .form-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 28px; }
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block; font-size: 12px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 8px;
+  }
+  .form-group input, .form-group select {
+    width: 100%; padding: 13px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-sm);
+    color: var(--white); font-family: 'DM Sans', sans-serif;
+    font-size: 14.5px; outline: none;
+    transition: var(--transition);
+    appearance: none;
+  }
+  .form-group input::placeholder { color: rgba(255,255,255,0.28); }
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.05);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  }
+  .form-group select option { background: var(--navy-mid); }
+  .btn-submit {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy); border: none; border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: var(--transition);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    letter-spacing: 0.3px; margin-top: 8px;
+  }
+  .btn-submit:hover { box-shadow: 0 8px 28px rgba(201,168,76,0.45); transform: translateY(-2px); }
+
+  /* ── GALLERY ── */
+  #gallery { background: var(--navy); }
+  .gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    gap: 16px;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .gallery-item {
+    position: relative; border-radius: var(--radius); overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 4/3;
+  }
+  .gallery-item:first-child { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+  .gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    display: block;
+  }
+  .gallery-item:hover img { transform: scale(1.08); }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,22,40,0.9) 0%, rgba(10,22,40,0.3) 50%, transparent 100%);
+    opacity: 0; transition: var(--transition);
+    display: flex; align-items: flex-end; padding: 20px;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-label { font-size: 14px; font-weight: 600; color: var(--white); }
+  .gallery-year { font-size: 12px; color: var(--gold); margin-top: 2px; }
+
+  /* ── DONATION ── */
+  #donate {
+    background: linear-gradient(135deg, #0d1e3a 0%, #112240 50%, #0a1628 100%);
+    position: relative; overflow: hidden;
+  }
+  #donate::before {
+    content: ''; position: absolute; top: -120px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .donate-grid {
+    display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px; align-items: center;
+    max-width: 1100px; margin: 0 auto; position: relative; z-index: 1;
+  }
+  .donate-info .impact-list { margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+  .impact-item {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px; color: rgba(255,255,255,0.7);
+  }
+  .impact-item i { color: var(--gold); width: 20px; }
+
+  .donate-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 20px; padding: 40px;
+    box-shadow: var(--shadow-gold);
+  }
+  .donate-card .form-title { margin-bottom: 24px; }
+  .amount-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px; }
+  .amount-btn {
+    padding: 13px 8px; text-align: center;
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-sm);
+    color: var(--white); font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: var(--transition);
+  }
+  .amount-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.07); }
+  .amount-btn.active {
+    background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(232,201,110,0.15));
+    border-color: var(--gold); color: var(--gold);
+    box-shadow: 0 4px 16px rgba(201,168,76,0.2);
+  }
+  .custom-input-wrap { position: relative; margin-bottom: 20px; }
+  .currency-symbol {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--gold); font-weight: 600; font-size: 16px; pointer-events: none;
+  }
+  .custom-input-wrap input { padding-left: 32px; }
+  .donate-note { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; }
+  .donate-note i { color: var(--gold); margin-right: 4px; }
+
+  /* ── NEWS ── */
+  #news { background: var(--navy-mid); }
+  .news-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+  .news-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; max-width: 1100px; margin: 0 auto; }
+  .news-featured {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px; overflow: hidden;
+    transition: var(--transition);
+    cursor: pointer;
+  }
+  .news-featured:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-4px); box-shadow: var(--shadow-gold); }
+  .news-featured-img {
+    height: 220px;
+    background: linear-gradient(135deg, var(--navy-light), #1d3461);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 64px; color: rgba(201,168,76,0.3);
+    position: relative; overflow: hidden;
+  }
+  .news-featured-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(10,22,40,0.8));
+  }
+  .news-featured-body { padding: 28px; }
+  .news-tag {
+    display: inline-block; padding: 3px 10px; border-radius: 40px;
+    background: rgba(201,168,76,0.15); color: var(--gold);
+    font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .news-featured-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
+  .news-featured-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 16px; }
+  .news-meta { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+  .news-meta i { color: var(--gold); }
+
+  .news-list { display: flex; flex-direction: column; gap: 14px; }
+  .news-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius); padding: 20px 22px;
+    cursor: pointer; transition: var(--transition);
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .news-card:hover { border-color: rgba(201,168,76,0.3); transform: translateX(6px); background: rgba(201,168,76,0.04); }
+  .news-card-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: rgba(201,168,76,0.1); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 18px;
+  }
+  .news-card-body {}
+  .news-card-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; line-height: 1.4; }
+  .news-card-date { font-size: 12px; color: var(--text-muted); }
+  .news-card-excerpt { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 6px; line-height: 1.5; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #06101f;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 60px 5% 30px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px; max-width: 1200px; margin: 0 auto 48px;
+  }
+  .footer-brand .logo-name { font-size: 20px; color: var(--white); }
+  .footer-brand p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-top: 14px; }
+  .footer-social { display: flex; gap: 10px; margin-top: 20px; }
+  .social-icon {
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.6); font-size: 14px;
+    text-decoration: none; transition: var(--transition);
+  }
+  .social-icon:hover { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
+  .footer-col h4 {
+    font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-col ul li a {
+    font-size: 14px; color: var(--text-muted);
+    text-decoration: none; transition: var(--transition);
+  }
+  .footer-col ul li a:hover { color: var(--white); padding-left: 4px; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 28px; max-width: 1200px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; color: var(--text-muted);
+  }
+  .footer-bottom a { color: var(--gold); text-decoration: none; }
+
+  /* ── VIEW ALL LINK ── */
+  .view-all {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--gold); font-size: 13.5px; font-weight: 600;
+    text-decoration: none; transition: var(--transition);
+  }
+  .view-all:hover { gap: 12px; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    .register-grid, .donate-grid, .news-grid { grid-template-columns: 1fr; gap: 40px; }
+    .gallery-grid { grid-template-columns: repeat(2,1fr); }
+    .gallery-item:first-child { grid-column: span 2; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { bottom: 70px; left: 5%; right: 5%; justify-content: flex-start; }
+    .gallery-header, .news-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+  @media (max-width: 600px) {
+    nav { padding: 0 4%; }
+    .nav-links { display: none; }
+    section { padding: 70px 4%; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    .hero-title { font-size: 2.4rem; }
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy); padding: 14px 24px; border-radius: 12px;
+    font-weight: 700; font-size: 14px;
+    box-shadow: 0 8px 30px rgba(201,168,76,0.4);
+    transform: translateY(80px); opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="logo-emblem">V</div>
+    <div class="logo-text">
+      <span class="logo-name">Vidya Alumni</span>
+      <span class="logo-sub">Est. 1972</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#register">Register</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#news">News</a></li>
+    <li><a href="#donate" class="btn-nav">Donate</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fas fa-star"></i> Class of 2025 Reunion — Now Open</div>
+    <h1 class="hero-title">
+      Reconnect.<br>
+      <span class="line2">Relive. <span class="accent">Give Back.</span></span>
+    </h1>
+    <p class="hero-subtitle">Thousands of alumni, one shared legacy. Celebrate your journey, forge new connections, and help shape tomorrow's generation.</p>
+    <div class="hero-cta">
+      <a href="#register" class="btn-primary"><i class="fas fa-user-plus"></i> Join Alumni</a>
+      <a href="#gallery" class="btn-secondary"><i class="fas fa-calendar-alt"></i> Explore Events</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="stat-num">12,400+</div>
+      <div class="stat-lbl">Alumni</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">52</div>
+      <div class="stat-lbl">Years Legacy</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">₹2.4Cr</div>
+      <div class="stat-lbl">Raised</div>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- REGISTRATION -->
+<section id="register">
+  <div class="register-grid">
+    <div class="reg-info reveal">
+      <p class="section-label">Join the Community</p>
+      <h2 class="section-title">Become a Registered<br>Alumni Member</h2>
+      <p class="section-desc">Connect with former classmates, access exclusive events, and be part of a community that lasts a lifetime.</p>
+      <div class="reg-features">
+        <div class="reg-feat">
+          <div class="reg-feat-icon"><i class="fas fa-users"></i></div>
+          <div class="reg-feat-text">
+            <h4>Reconnect with Batchmates</h4>
+            <p>Find and connect with friends from your graduation year.</p>
+          </div>
+        </div>
+        <div class="reg-feat">
+          <div class="reg-feat-icon"><i class="fas fa-ticket-alt"></i></div>
+          <div class="reg-feat-text">
+            <h4>Exclusive Event Access</h4>
+            <p>Priority invites to reunions, speaker sessions, and annual galas.</p>
+          </div>
+        </div>
+        <div class="reg-feat">
+          <div class="reg-feat-icon"><i class="fas fa-graduation-cap"></i></div>
+          <div class="reg-feat-text">
+            <h4>Mentorship Network</h4>
+            <p>Guide current students and give back through knowledge.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reg-form-wrap reveal">
+      <div class="form-title">Alumni Registration</div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="e.g nishad khairkar">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="nishad0504@gmail.com">
+      </div>
+      <div class="form-group">
+        <label>Batch Year</label>
+        <select>
+          <option value="">Select your batch year</option>
+          <option>2024</option><option>2023</option><option>2022</option>
+          <option>2021</option><option>2020</option><option>2019</option>
+          <option>2018</option><option>2015</option><option>2010</option>
+          <option>2005</option><option>2000</option><option>1995</option>
+          <option>1990</option><option>Before 1990</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Phone Number (Optional)</label>
+        <input type="tel" placeholder="9075290933">
+      </div>
+      <button class="btn-submit" onclick="showToast('🎉 Welcome to Vidya Alumni!')">
+        <i class="fas fa-paper-plane"></i> Register Now
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery-header reveal">
+    <div>
+      
+      <h2 class="section-title">Event Gallery</h2>
+    
+  <div class="gallery-grid reveal">
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&q=80" alt="Annual Reunion 2024">
+      <div class="gallery-overlay">
+        <div>
+          <div class="gallery-label">Annual Grand Reunion</div>
+          <div class="gallery-year">2024</div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80" alt="Convocation">
+      <div class="gallery-overlay">
+        <div>
+          <div class="gallery-label">Convocation Ceremony</div>
+          <div class="gallery-year">2023</div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80" alt="Sports Day">
+      <div class="gallery-overlay">
+        <div>
+          <div class="gallery-label">Alumni Sports Day</div>
+          <div class="gallery-year">2023</div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80" alt="Seminar">
+      <div class="gallery-overlay">
+        <div>
+          <div class="gallery-label">Leadership Summit</div>
+          <div class="gallery-year">2024</div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSp_qjkQoTmkJacxiT3t_8Wh7cu-zbigrQkQ&s">
+      <div class="gallery-overlay">
+        <div>
+          <div class="gallery-label">City Alumni Meetup</div>
+          <div class="gallery-year">2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DONATION -->
+<section id="donate">
+  <div class="donate-grid">
+    <div class="donate-info reveal">
+      <p class="section-label">Give Back</p>
+      <h2 class="section-title">Fund the Future of<br>Tomorrow's Students</h2>
+      <p class="section-desc">Your contribution helps build infrastructure, provide scholarships, and enrich the campus experience for current students.</p>
+      <div class="impact-list">
+        <div class="impact-item"><i class="fas fa-check-circle"></i> ₹500 covers stationery kits for 5 students</div>
+        <div class="impact-item"><i class="fas fa-check-circle"></i> ₹1000 sponsors a student's library access for a year</div>
+        <div class="impact-item"><i class="fas fa-check-circle"></i> ₹5000 funds a merit scholarship for one semester</div>
+        <div class="impact-item"><i class="fas fa-check-circle"></i> 100% transparent fund utilisation reports</div>
+      </div>
+    </div>
+    <div class="donate-card reveal">
+      <div class="form-title">Make a Donation</div>
+      <div class="amount-grid" id="amountGrid">
+        <button class="amount-btn" onclick="selectAmount(this, '500')">₹500</button>
+        <button class="amount-btn active" onclick="selectAmount(this, '1000')">₹1000</button>
+        <button class="amount-btn" onclick="selectAmount(this, '5000')">₹5000</button>
+      </div>
+      <div class="custom-input-wrap">
+        <span class="currency-symbol">₹</span>
+        <input type="number" placeholder="Custom amount" id="customAmt" class="form-group" style="width:100%;padding:13px 16px 13px 32px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-family:'DM Sans',sans-serif;font-size:14.5px;outline:none;transition:all 0.32s;" oninput="clearAmountBtns()">
+      </div>
+      <div class="form-group">
+        <label style="display:block;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#8899aa;margin-bottom:8px;">Donor Name</label>
+        <input type="text" placeholder="Your name (optional)">
+      </div>
+      <button class="btn-submit" onclick="showToast('💛 Thank you for your generous donation!')">
+        <i class="fas fa-heart"></i> Donate Now
+      </button>
+      <p class="donate-note"><i class="fas fa-lock"></i> Secure payment · 80G Tax exemption available</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="news-header reveal">
+    <div>
+      <p class="section-label">Updates</p>
+      <h2 class="section-title">Latest News & Announcements</h2>
+    </div>
+    <a href="#" class="view-all">All News <i class="fas fa-arrow-right"></i></a>
+  </div>
+  <div class="news-grid">
+    <div class="news-featured reveal">
+      <div class="news-featured-img">
+        <img src="https://images.unsplash.com/photo-1532649538693-f3a2ec1bf8bd?w=800&q=80" alt="Reunion" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+      </div>
+      <div class="news-featured-body">
+        <span class="news-tag">Featured</span>
+        <div class="news-featured-title">Grand Reunion 2025 — Registration Now Open for All Batches</div>
+        <p class="news-featured-desc">Join us for the biggest alumni gathering in the history of Vidya School. Three days of memories, networking, cultural events, and a grand gala dinner.</p>
+        <div class="news-meta"><i class="fas fa-calendar"></i> April 12, 2025 &nbsp;·&nbsp; <i class="fas fa-tag"></i> Events</div>
+      </div>
+    </div>
+    <div class="news-list reveal">
+      <div class="news-card">
+        <div class="news-card-icon"><i class="fas fa-trophy"></i></div>
+        <div class="news-card-body">
+          <div class="news-card-title">Batch of 2005 Alumna Wins Padma Shri Award</div>
+          <div class="news-card-date"><i class="fas fa-calendar" style="color:var(--gold);margin-right:5px;"></i>March 28, 2025</div>
+          <div class="news-card-excerpt">Dr. Anjali Mehta (Batch 2005) honoured for her outstanding contribution to public health.</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-icon"><i class="fas fa-building"></i></div>
+        <div class="news-card-body">
+          <div class="news-card-title">New Science Block Inauguration — Alumni Funded</div>
+          <div class="news-card-date"><i class="fas fa-calendar" style="color:var(--gold);margin-right:5px;"></i>March 14, 2025</div>
+          <div class="news-card-excerpt">The ₹48 lakh state-of-the-art science block was fully funded through alumni donations.</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-icon"><i class="fas fa-graduation-cap"></i></div>
+        <div class="news-card-body">
+          <div class="news-card-title">Scholarship Applications Open — 2025–26</div>
+          <div class="news-card-date"><i class="fas fa-calendar" style="color:var(--gold);margin-right:5px;"></i>March 1, 2025</div>
+          <div class="news-card-excerpt">25 merit-cum-means scholarships available for current students. Apply by May 15.</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-icon"><i class="fas fa-microphone-alt"></i></div>
+        <div class="news-card-body">
+          <div class="news-card-title">Alumni Speaker Series — Monthly Webinar Launch</div>
+          <div class="news-card-date"><i class="fas fa-calendar" style="color:var(--gold);margin-right:5px;"></i>Feb 20, 2025</div>
+          <div class="news-card-excerpt">Inspiring alumni professionals to mentor students via live monthly webinar sessions.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="margin-bottom: 16px; display: inline-flex;">
+        <div class="logo-emblem">V</div>
+        <div class="logo-text">
+          <span class="logo-name">Vidya Alumni</span>
+          <span class="logo-sub">Est. 1972</span>
+        </div>
+      </a>
+      <p>Celebrating over five decades of excellence, community, and achievement. Together, we shape futures.</p>
+      <div class="footer-social">
+        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+    
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Find Batchmates</a></li>
+        <li><a href="#">Mentorship</a></li>
+        <li><a href="#">Career Board</a></li>
+        <li><a href="#">Events Calendar</a></li>
+      </ul>
+    </div>
+    
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Vidya Alumni Portal. All rights reserved.</span>
+    <span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Use</a> &nbsp;·&nbsp; Built with excellence by Nishad</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Floating particles
+  const particleContainer = document.getElementById('particles');
+  for (let i = 0; i < 12; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    const size = Math.random() * 4 + 2;
+    p.style.cssText = `
+      width: ${size}px; height: ${size}px;
+      left: ${Math.random() * 100}%;
+      animation-duration: ${Math.random() * 15 + 10}s;
+      animation-delay: ${Math.random() * -20}s;
+    `;
+    particleContainer.appendChild(p);
+  }
+
+  // Donation amount selection
+  function selectAmount(btn, amount) {
+    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('customAmt').value = '';
+  }
+  function clearAmountBtns() {
+    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+  }
+
+  // Focus effect for custom amount
+  const customInput = document.getElementById('customAmt');
+  if (customInput) {
+    customInput.addEventListener('focus', () => {
+      customInput.style.borderColor = 'var(--gold)';
+      customInput.style.background = 'rgba(201,168,76,0.05)';
+      customInput.style.boxShadow = '0 0 0 3px rgba(201,168,76,0.12)';
+    });
+    customInput.addEventListener('blur', () => {
+      customInput.style.borderColor = 'rgba(255,255,255,0.1)';
+      customInput.style.background = 'rgba(255,255,255,0.05)';
+      customInput.style.boxShadow = 'none';
+    });
+  }
+
+  // Toast notification
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.innerHTML = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  }
+
+  // Smooth nav scrolling
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
